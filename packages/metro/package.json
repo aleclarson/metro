@@ -48,6 +48,7 @@
     "metro-inspector-proxy": "0.56.0",
     "metro-minify-uglify": "0.56.0",
     "metro-react-native-babel-preset": "0.56.0",
+    "metro-require": "link:../metro-require",
     "metro-resolver": "0.56.0",
     "metro-source-map": "0.56.0",
     "metro-symbolicate": "0.56.0",

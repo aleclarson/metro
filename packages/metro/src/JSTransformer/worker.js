@@ -10,6 +10,8 @@
 
 'use strict';
 
+require('metro-require');
+
 const JsFileWrapping = require('../ModuleGraph/worker/JsFileWrapping');
 
 const assetTransformer = require('../assetTransformer');

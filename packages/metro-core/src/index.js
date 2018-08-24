@@ -10,6 +10,8 @@
 
 'use strict';
 
+require('metro-require');
+
 const AmbiguousModuleResolutionError = require('./errors/AmbiguousModuleResolutionError');
 const Logger = require('./Logger');
 const PackageResolutionError = require('./errors/PackageResolutionError');

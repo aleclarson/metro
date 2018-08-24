@@ -12,6 +12,8 @@
 
 'use strict';
 
+require('metro-require');
+
 // flowlint-next-line untyped-import:off
 const yargs = require('yargs');
 

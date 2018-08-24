@@ -14,6 +14,7 @@
   "dependencies": {
     "jest-haste-map": "^24.7.1",
     "lodash.throttle": "^4.1.1",
+    "metro-require": "link:../metro-require",
     "metro-resolver": "0.56.0",
     "wordwrap": "^1.0.0"
   },
