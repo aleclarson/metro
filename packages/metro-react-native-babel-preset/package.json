@@ -18,6 +18,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "7.0.0-beta.56",
     "@babel/plugin-proposal-class-properties": "7.0.0-beta.56",
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.0.0-beta.56",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.56",
@@ -47,6 +48,6 @@
     "@babel/plugin-transform-typescript": "7.0.0-beta.56",
     "@babel/plugin-transform-unicode-regex": "7.0.0-beta.56",
     "@babel/template": "7.0.0-beta.56",
-    "metro-babel7-plugin-react-transform": "0.43.5"
+    "react-transform-hmr": "^1.0.4"
   }
 }
