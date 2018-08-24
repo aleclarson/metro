@@ -12,6 +12,8 @@
 
 'use strict';
 
+require('metro-require');
+
 const yargs = require('yargs');
 
 const {attachMetroCli} = require('./index');
