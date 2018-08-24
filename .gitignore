@@ -3,6 +3,7 @@
 /packages/*/node_modules/
 /coverage
 lerna-debug.log
+shrinkwrap.yaml
 npm-debug.log*
 packages/*/build/
 
