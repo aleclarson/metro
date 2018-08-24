@@ -2,7 +2,6 @@
   "version": "0.51.0",
   "name": "metro-babel-register",
   "description": "🚇 babel/register configuration for Metro.",
-  "main": "src/babel-register.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:facebook/metro.git"
@@ -19,7 +18,8 @@
     "@babel/plugin-transform-modules-commonjs": "^7.0.0",
     "@babel/register": "^7.0.0",
     "core-js": "^2.2.2",
-    "escape-string-regexp": "^1.0.5"
+    "escape-string-regexp": "^1.0.5",
+    "metro-require": "file:../metro-require"
   },
   "scripts": {
     "prepare-release": "test -d build && rm -rf src.real && mv src src.real && mv build src",

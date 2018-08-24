@@ -2,7 +2,6 @@
   "version": "0.51.0",
   "name": "metro",
   "description": "🚇 The JavaScript bundler for React Native.",
-  "main": "src/index.js",
   "bin": "src/cli.js",
   "repository": {
     "type": "git",
@@ -40,6 +39,7 @@
     "json-stable-stringify": "^1.0.1",
     "lodash.throttle": "^4.1.1",
     "merge-stream": "^1.0.1",
+    "metro-require": "file:../metro-require",
     "metro-babel-transformer": "0.51.0",
     "metro-cache": "0.51.0",
     "metro-config": "0.51.0",
