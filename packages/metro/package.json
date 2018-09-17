@@ -2,6 +2,7 @@
   "version": "0.45.2",
   "name": "metro",
   "description": "🚇 The JavaScript bundler for React Native.",
+  "main": "src/index.js",
   "bin": "src/cli.js",
   "repository": {
     "type": "git",
