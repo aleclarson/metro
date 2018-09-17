@@ -12,7 +12,7 @@ const escapeRegExp = require('escape-string-regexp');
 const path = require('path');
 require('./node-polyfills');
 
-var _only = [];
+var _only = [path.resolve(__dirname, '../..')];
 
 const PLUGINS = [
   [require('@babel/plugin-transform-flow-strip-types').default],
@@ -41,7 +41,7 @@ function config(onlyList) {
   return {
     babelrc: false,
     configFile: false,
-    ignore: null,
+    ignore: [/\/node_modules\//],
     only: _only,
     plugins: PLUGINS,
     presets: [],
