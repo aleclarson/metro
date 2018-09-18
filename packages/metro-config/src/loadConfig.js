@@ -15,6 +15,8 @@ const getDefaultConfig = require('./defaults');
 
 const {dirname, resolve, join} = require('path');
 
+const hmrTransform = 'react-transform-hmr';
+
 import type {ConfigT, InputConfigT} from './configTypes.flow';
 
 type CosmiConfigResult = {
@@ -241,6 +243,12 @@ async function loadConfig(
   const configWithArgs = overrideConfigWithArguments(configuration, argv);
 
   const overriddenConfig = {};
+
+  // Ensure "react-transform-hmr" can be found
+  const {extraNodeModules} = overriddenConfig.resolver;
+  if (!extraNodeModules[hmrTransform]) {
+    extraNodeModules[hmrTransform] = dirname(__dirname) + '/node_modules';
+  }
 
   // The resolver breaks if "json" is missing from `resolver.sourceExts`
   const sourceExts = configWithArgs.resolver.sourceExts;
