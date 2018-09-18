@@ -25,6 +25,7 @@ import type {
   Resolution,
 } from 'metro-resolver';
 
+export type FollowFn = (filePath: string) => string;
 export type DirExistsFn = (filePath: string) => boolean;
 
 /**
@@ -53,6 +54,7 @@ export type ModuleishCache<TModule, TPackage> = {
 };
 
 type Options<TModule, TPackage> = {|
+  +follow: FollowFn,
   +dirExists: DirExistsFn,
   +doesFileExist: DoesFileExist,
   +extraNodeModules: ?Object,
@@ -169,18 +171,14 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
         );
       }
       if (error instanceof Resolver.FailedToResolveNameError) {
-        const {dirPaths, extraPaths} = error;
-        const displayDirPaths = dirPaths
-          .filter(dirPath => this._options.dirExists(dirPath))
-          .concat(extraPaths);
-
-        const hint = displayDirPaths.length ? ' or in these directories:' : '';
+        const {modulePaths} = error;
+        const hint = modulePaths.length ? ' or at these locations:' : '';
         throw new UnableToResolveError(
           fromModule.path,
           moduleName,
           [
             `Module \`${moduleName}\` does not exist in the Haste module map${hint}`,
-            ...displayDirPaths.map(dirPath => `  ${path.dirname(dirPath)}`),
+            ...modulePaths.map(modulePath => `  ${path.dirname(modulePath)}`),
             '',
             'This might be related to https://github.com/facebook/react-native/issues/4968',
             'To resolve try the following:',

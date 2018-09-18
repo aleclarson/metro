@@ -137,6 +137,7 @@ exports.createResolveFn = function(options: ResolveOptions): ResolveFn {
     platforms,
   });
   const moduleResolver = new ModuleResolver({
+    follow: filePath => hasteFS.follow(filePath),
     dirExists: filePath => hasteFS.dirExists(filePath),
     doesFileExist: filePath => hasteFS.exists(filePath),
     extraNodeModules,

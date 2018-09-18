@@ -163,6 +163,7 @@ class DependencyGraph extends EventEmitter {
 
   _createModuleResolver() {
     this._moduleResolver = new ModuleResolver({
+      follow: filePath => this._hasteFS.follow(filePath),
       dirExists: filePath => {
         try {
           return fs.lstatSync(filePath).isDirectory();
