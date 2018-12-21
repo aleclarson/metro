@@ -106,6 +106,7 @@ class DependencyGraph extends EventEmitter {
       providesModuleNodeModules: opts.providesModuleNodeModules,
       retainAllFiles: true,
       resetCache: opts.resetCache,
+      rootDir: opts.projectRoot,
       roots: opts.watchFolders,
       throwOnModuleCollision: true,
       useWatchman: opts.useWatchman,
