@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+/* eslint-disable */
 const AsyncTaskGroup = require('async-task-group')
-const exec = require('exec')
-const huey = require('huey')
+const bocks = require('bocks')
+const exec = require('@cush/exec')
+const ansi = require('ansi-colors')
 const path = require('path')
 const fs = require('saxon/sync')
 
@@ -19,23 +21,20 @@ function getPackageDir(file) {
 
 // Directories containing other linked packages
 const packages = function() {
-  let names = [ process.cwd() ].concat((process.env.USING || '').split(','))
-  return names.map(name => {
-    let pkg
-    if (path.isAbsolute(name)) {
-      pkg = name + '/.'
-    } else try {
-      pkg = require.resolve(name)
-    } catch(e) {}
+  let dirs = (process.env.USING || '').split(',').filter(name => !!name)
+  dirs.push(process.cwd())
 
-    if (pkg && (pkg = getPackageDir(pkg))) {
-      console.log(huey.pale_green('using:'), pkg)
+  return dirs.map(dir => {
+    dir = path.resolve(dir)
+
+    let pkg = getPackageDir(dir + '/.')
+    if (pkg) {
       return fs.list(pkg)
         .map(name => pkg + name)
         .filter(fs.isDir)
     }
 
-    throw Error('Unknown package dir: ' + name)
+    throw Error('Unknown package dir: ' + JSON.stringify(name))
   })
 }()
 
@@ -43,67 +42,53 @@ const links = [].concat(...packages)
 const linkNames = links.map(link => path.basename(link))
 
 // Package queue
-const metroPackages = packages[0]
 const queue = new AsyncTaskGroup(1, initPackage)
-queue.concat(metroPackages)
+queue.concat(packages.pop())
 
 function initPackage(pkg) {
-  console.log(huey.yellow('>>'), pkg)
+  let metaPath = pkg + '/package.json'
+  if (!fs.exists(metaPath)) return
 
-  let metaStr = fs.read(pkg + '/package.json')
+  let metaStr = fs.read(metaPath)
   let meta = JSON.parse(metaStr)
 
   let deps = meta.dependencies
-  if (deps) localize(deps, pkg)
+  let changed = !!deps && localize(deps, pkg)
 
   deps = meta.devDependencies
-  if (deps) localize(deps, pkg)
+  if (deps) changed = localize(deps, pkg) || changed
 
+  if (!changed) return
+
+  // Preserve trailing whitespace.
   let space = /\s*$/.exec(metaStr)
   space = space ? space[0] : ''
 
   metaStr = JSON.stringify(meta, null, 2) + space
-  fs.write(pkg + '/package.json', metaStr)
-  console.log(huey.coal(metaStr))
+  fs.write(metaPath, metaStr)
 
   let counted = false
   let countRE = /total (\d+)/
 
-  // Install dependencies
+  // Do a fresh install.
+  fs.remove(pkg + '/yarn.lock')
   fs.remove(pkg + '/node_modules', true)
-  return exec.async('pnpm install', {
-    cwd: pkg,
-    listener(err, data) {
-      if (err) return console.error(err)
-      if (counted) return
 
-      const count = countRE.exec(data)
-      if (count) {
-        counted = true
-        console.log(
-          path.basename(pkg) + ':',
-          huey.cyan(count[1] + ' dependencies to install')
-        )
-      }
-    }
-  }).then(() => {
-    let n = ++progress
-    let len = metroPackages.length
-    let prct = (100 * n / len).toFixed(1)
-    console.log(
-      path.basename(pkg) + ':',
-      huey.green(n), `/ ${len}`, huey.gray(`(${prct}%)`)
-    )
-
-    return exec.async('deps link -g -f', { cwd: pkg })
-  })
+  console.log(pkg)
 }
 
 function localize(deps, pkg) {
+  let changed = false
   for (let key in deps) {
     let i = linkNames.indexOf(key)
-    if (i != -1) {
-      deps[key] = 'file:' + path.relative(pkg, links[i])
+    if (i >= 0) {
+      let oldValue = deps[key]
+      let newValue = 'link:' + path.relative(pkg, links[i])
+      if (newValue !== oldValue) {
+        changed = true
+        deps[key] = newValue
+      }
     }
   }
+  return changed
 }

@@ -1,17 +1,18 @@
-# Metro
+# aleclarson/metro
 
-[![CircleCI Build Status](https://circleci.com/gh/facebook/metro.svg?style=shield)](https://circleci.com/gh/facebook/metro)
-[![npm version](https://badge.fury.io/js/metro.svg)](http://badge.fury.io/js/metro)
-[![codecov](https://codecov.io/gh/facebook/metro/branch/master/graph/badge.svg)](https://codecov.io/gh/facebook/metro)
+A fork of `metro` with support for symlinks in `node_modules`.
 
-🚇 The JavaScript bundler for React Native.
+Current `metro` version: `0.45.0`
 
-- **🚅 Fast**: We aim for sub-second reload cycles, fast startup and quick bundling speeds.
-- **⚖️ Scalable**: Works with thousands of modules in a single application.
-- **⚛️ Integrated**: Supports every React Native project out of the box.
+```sh
+# Install root dependencies.
+pnpm i
 
-This project was previously part of the [react-native](https://github.com/facebook/react-native) repository. In this smaller repository it is easier for the team working on Metro Bundler to respond to both issues and pull requests. See [react-native#13976](https://github.com/facebook/react-native/issues/13976) for the initial announcement.
+# Link every "package.json" in the "packages" directory
+# and look in "../jest/packages" for reusable packages:
+USING="../jest" node ./scripts/link.js
 
-## Installation & Documentation
-
-See [the Metro website](https://facebook.github.io/metro/) for documentation.
+# Install each package.
+cd packages
+ls -1 | xargs -I {} sh -c 'cd {}; [ -f package.json ] && pnpm i --prod && pnpm link'
+```
