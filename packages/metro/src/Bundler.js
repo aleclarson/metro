@@ -16,7 +16,7 @@ const Transformer = require('./JSTransformer');
 const assert = require('assert');
 const fs = require('fs');
 const getTransformCacheKeyFn = require('./lib/getTransformCacheKeyFn');
-const toLocalPath = require('./node-haste/lib/toLocalPath');
+const path = require('path');
 
 const {Cache, stableHash} = require('metro-cache');
 
@@ -137,7 +137,7 @@ class Bundler {
       }
     }
 
-    const localPath = toLocalPath(this._opts.watchFolders, filePath);
+    const localPath = path.relative(this._opts.projectRoot, filePath);
 
     const partialKey = stableHash([
       // This is the hash related to the global Bundler config.

@@ -18,7 +18,6 @@ const Worker = require('jest-worker').default;
 
 import type {TransformResult} from './DeltaBundler';
 import type {WorkerFn, WorkerOptions} from './DeltaBundler/Worker';
-import type {LocalPath} from './node-haste/lib/toLocalPath';
 
 type WorkerInterface = Worker & {
   transform: WorkerFn,
@@ -74,7 +73,7 @@ module.exports = class Transformer {
 
   async transform(
     filename: string,
-    localPath: LocalPath,
+    localPath: string,
     transformerPath: string,
     options: WorkerOptions,
   ): Promise<TransformerResult> {

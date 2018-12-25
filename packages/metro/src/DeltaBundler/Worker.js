@@ -15,7 +15,6 @@ const fs = require('fs');
 
 import type {WorkerOptions as JsWorkerOptions} from '../JSTransformer/worker';
 import type {TransformResultDependency} from '../ModuleGraph/types.flow';
-import type {LocalPath} from '../node-haste/lib/toLocalPath';
 import type {MixedOutput} from './types.flow';
 import type {LogEntry} from 'metro-core/src/Logger';
 
@@ -23,7 +22,7 @@ export type WorkerOptions = JsWorkerOptions;
 export type WorkerFn = typeof transform;
 export type TransformerFn<T: MixedOutput> = (
   string,
-  LocalPath,
+  string,
   Buffer,
   WorkerOptions,
 ) => Promise<Result<T>>;
@@ -42,7 +41,7 @@ type Data<T: MixedOutput> = {
 
 async function transform<T: MixedOutput>(
   filename: string,
-  localPath: LocalPath,
+  localPath: string,
   transformerPath: string,
   transformerOptions: WorkerOptions,
 ): Promise<Data<T>> {

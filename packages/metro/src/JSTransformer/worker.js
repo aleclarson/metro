@@ -35,7 +35,6 @@ const {
 
 import type {TransformResultDependency} from '../ModuleGraph/types.flow';
 import type {DynamicRequiresBehavior} from '../ModuleGraph/worker/collectDependencies';
-import type {LocalPath} from '../node-haste/lib/toLocalPath';
 import type {Ast} from '@babel/core';
 import type {Plugins as BabelPlugins} from 'babel-core';
 import type {MetroSourceMapSegmentTuple} from 'metro-source-map';
@@ -125,7 +124,7 @@ function getDynamicDepsBehavior(
 
 async function transform(
   filename: string,
-  localPath: LocalPath,
+  localPath: string,
   data: Buffer,
   options: WorkerOptions,
 ): Promise<Result> {

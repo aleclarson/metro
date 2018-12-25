@@ -248,7 +248,7 @@ class Server {
       processModuleFilter: this._config.serializer.processModuleFilter,
       assetPlugins: this._config.transformer.assetPlugins,
       platform: options.platform,
-      watchFolders: this._config.watchFolders,
+      projectRoot: this._config.projectRoot,
     });
   }
 
