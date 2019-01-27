@@ -96,8 +96,11 @@ function buildFile(file, silent) {
       );
   } else {
     // $FlowFixMe TODO t25179342 need to update flow-types for babel-core
-    const transformed = babel.transformFileSync(file, {}).code;
-    fs.writeFileSync(destPath, transformed);
+    const result = babel.transformFileSync(file, {
+      sourceMaps: 'inline',
+      sourceFileName: path.relative(path.dirname(destPath), file),
+    });
+    fs.writeFileSync(destPath, result.code);
     const source = fs.readFileSync(file).toString('utf-8');
     if (/\@flow/.test(source)) {
       fs.createReadStream(file).pipe(fs.createWriteStream(destPath + '.flow'));
