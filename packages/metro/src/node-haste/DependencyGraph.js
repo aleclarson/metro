@@ -107,7 +107,7 @@ class DependencyGraph extends EventEmitter {
       resetCache: opts.resetCache,
       rootDir: opts.projectRoot,
       roots: opts.watchFolders,
-      throwOnModuleCollision: true,
+      skipHastePackages: true,
       useWatchman: opts.useWatchman,
       watch: opts.watch,
     });
