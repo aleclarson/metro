@@ -57,9 +57,10 @@
     "typecheck": "flow check",
     "watch": "yarn run build --silent && node ./scripts/watch.js"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": ["packages/*"],
+    "nohoist": ["**/react-transform-hmr"]
+  },
   "jest": {
     "modulePathIgnorePatterns": [
       "packages/[^/]+/build/"
