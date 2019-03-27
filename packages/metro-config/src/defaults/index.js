@@ -72,9 +72,11 @@ const getDefaultValues = (projectRoot: ?string): ConfigT => ({
 
   transformer: {
     assetPlugins: [],
-    asyncRequireModulePath: 'metro/src/lib/bundle-modules/asyncRequire',
+    asyncRequireModulePath: require.resolve(
+      'metro/src/lib/bundle-modules/asyncRequire',
+    ),
     assetRegistryPath: 'missing-asset-registry-path',
-    babelTransformerPath: 'metro-babel-transformer',
+    babelTransformerPath: require.resolve('metro-babel-transformer'),
     dynamicDepsInPackages: 'throwAtRuntime',
     enableBabelRCLookup: true,
     enableBabelRuntime: true,
