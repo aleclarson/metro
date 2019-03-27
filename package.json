@@ -59,7 +59,7 @@
   },
   "workspaces": {
     "packages": ["packages/*"],
-    "nohoist": ["**/react-transform-hmr"]
+    "nohoist": ["**/react-transform-hmr", "**/react-transform-hmr/**"]
   },
   "jest": {
     "modulePathIgnorePatterns": [
