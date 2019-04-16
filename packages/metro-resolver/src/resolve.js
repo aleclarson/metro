@@ -58,23 +58,9 @@ function resolve(
     return {type: 'empty'};
   }
 
-  const {originModulePath} = context;
   const normalizedName = normalizePath(realModuleName);
   const isDirectImport =
     isRelativeImport(normalizedName) || isAbsolutePath(normalizedName);
-
-  // We disable the direct file loading to let the custom resolvers deal with it
-  if (!resolveRequest && isDirectImport) {
-    // derive absolute path /.../node_modules/originModuleDir/normalizedName
-    const fromModuleParentIdx =
-      originModulePath.lastIndexOf('node_modules' + path.sep) + 13;
-    const originModuleDir = originModulePath.slice(
-      0,
-      originModulePath.indexOf(path.sep, fromModuleParentIdx),
-    );
-    const absPath = path.join(originModuleDir, normalizedName);
-    return resolveModulePath(context, absPath, platform);
-  }
 
   // The Haste resolution must occur before the custom resolver because we want
   // to allow overriding imports. It could be part of the custom resolver, but
@@ -93,9 +79,22 @@ function resolve(
         return resolution;
       }
     } catch (error) {}
-    if (isDirectImport) {
-      throw new Error('Failed to resolve module: ' + normalizedName);
-    }
+  }
+
+  if (isDirectImport) {
+    const {originModulePath} = context;
+
+    // derive absolute path /.../node_modules/originModuleDir/normalizedName
+    const fromModuleParentIdx =
+      originModulePath.lastIndexOf('node_modules' + path.sep) + 13;
+
+    const originModuleDir = originModulePath.slice(
+      0,
+      originModulePath.indexOf(path.sep, fromModuleParentIdx),
+    );
+
+    const absPath = path.join(originModuleDir, normalizedName);
+    return resolveModulePath(context, absPath, platform);
   }
 
   const parsedName = parseModuleName(normalizedName);
