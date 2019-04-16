@@ -82,18 +82,11 @@ function resolve(
   }
 
   if (isDirectImport) {
-    const {originModulePath} = context;
-
-    // derive absolute path /.../node_modules/originModuleDir/normalizedName
-    const fromModuleParentIdx =
-      originModulePath.lastIndexOf('node_modules' + path.sep) + 13;
-
-    const originModuleDir = originModulePath.slice(
-      0,
-      originModulePath.indexOf(path.sep, fromModuleParentIdx),
-    );
-
-    const absPath = path.join(originModuleDir, normalizedName);
+    const absPath = isAbsolutePath(normalizedName)
+      ? normalizedName
+      : normalizePath(
+          path.join(path.dirname(context.originModulePath), normalizedName),
+        );
     return resolveModulePath(context, absPath, platform);
   }
 
