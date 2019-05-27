@@ -17,6 +17,8 @@ const InvalidPackageError = require('./InvalidPackageError');
 const isAbsolutePath = require('absolute-path');
 const path = require('path');
 
+const NODE_MODULES = 'node_modules';
+
 import type {
   AssetFileResolution,
   DoesFileExist,
@@ -131,8 +133,8 @@ function* genPackagePaths(
   let parent = context.originModulePath;
   do {
     parent = path.dirname(parent);
-    if (path.basename(parent) !== 'node_modules') {
-      yield path.join(parent, 'node_modules', parsedName.package);
+    if (path.basename(parent) !== NODE_MODULES) {
+      yield path.join(parent, NODE_MODULES, parsedName.package);
     }
   } while (parent !== root);
 
