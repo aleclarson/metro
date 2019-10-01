@@ -54,6 +54,8 @@ const CONTEXT: ResolutionContext = (() => {
   );
   return {
     allowHaste: true,
+    follow: p => p,
+    redirectPackage: p => p,
     doesFileExist: filePath => fileSet.has(filePath),
     extraNodeModules: null,
     getPackageMainPath: dirPath => path.join(path.dirname(dirPath), 'main'),
