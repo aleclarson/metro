@@ -63,6 +63,7 @@ class Bundler {
       reporter: opts.reporter,
       resetCache: opts.resetCache,
       resolveRequest: opts.resolver.resolveRequest,
+      rewritePath: opts.resolver.rewritePath,
       sourceExts: opts.resolver.sourceExts,
       useWatchman: opts.resolver.useWatchman,
       watch: opts.watch,

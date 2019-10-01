@@ -215,6 +215,11 @@ export type OldConfigT = {
   resolveRequest: ?CustomResolver,
 
   /**
+   * An optional function used to rewrite module paths.
+   */
+  rewritePath: ?(fromModule: any, modulePath: string) => string,
+
+  /**
    * Path to a require-able module that exports:
    * - a `getHasteName(filePath)` method that returns `hasteName` for module at
    *  `filePath`, or undefined if `filePath` is not a haste module.
@@ -445,6 +450,7 @@ export type IntermediateConfigT = {
     assetTransforms: boolean,
     extraNodeModules: {[name: string]: string},
     resolveRequest?: ?CustomResolver,
+    rewritePath?: ?(fromModule: any, modulePath: string) => string,
     blacklistRE: RegExp,
     useWatchman: boolean,
   },

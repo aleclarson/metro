@@ -61,6 +61,7 @@ async function convertOldToNew({
     getWatchFolders,
     getTransformModulePath,
     resolveRequest,
+    rewritePath,
     getAssetExts,
     getPlatforms,
     getProvidesModuleNodeModules,
@@ -117,6 +118,7 @@ async function convertOldToNew({
         assetTransforms || defaultConfig.resolver.assetTransforms,
       extraNodeModules,
       resolveRequest,
+      rewritePath,
       blacklistRE: getBlacklistRE()
         ? getBlacklistRE()
         : defaultConfig.resolver.blacklistRE,
@@ -209,6 +211,7 @@ function convertNewToOld(newConfig: ConfigT): ConvertedOldConfigT {
     assetTransforms,
     extraNodeModules,
     resolveRequest,
+    rewritePath,
     blacklistRE,
   } = resolver;
 
@@ -266,6 +269,7 @@ function convertNewToOld(newConfig: ConfigT): ConvertedOldConfigT {
       watchFolders,
       transformModulePath: babelTransformerPath,
       resolveRequest,
+      rewritePath,
       resetCache,
       watch,
       reporter,

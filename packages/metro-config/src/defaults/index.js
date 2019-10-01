@@ -40,6 +40,7 @@ const getDefaultValues = (projectRoot: ?string): IntermediateConfigT => ({
     resolverMainFields: ['browser', 'main'],
     extraNodeModules: {},
     resolveRequest: null,
+    rewritePath: null,
     // TODO set a default for this one?
     // hasteImplModulePath
     blacklistRE: blacklist(),
