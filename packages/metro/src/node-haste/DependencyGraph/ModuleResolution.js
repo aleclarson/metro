@@ -67,6 +67,7 @@ type Options<TModule, TPackage> = {|
   +moduleMap: ModuleMap,
   +resolveAsset: ResolveAsset,
   +resolveRequest: ?CustomResolver,
+  +rewritePath: ?(fromModule: any, modulePath: string) => string,
   +sourceExts: $ReadOnlyArray<string>,
 |};
 
@@ -80,8 +81,11 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
   }
 
   _redirectRequire(fromModule: TModule, modulePath: string): string | false {
-    const moduleCache = this._options.moduleCache;
+    const {moduleCache, rewritePath} = this._options;
     try {
+      if (rewritePath) {
+        modulePath = rewritePath(fromModule, modulePath);
+      }
       if (modulePath.startsWith('.')) {
         const fromPackage = fromModule.getPackage();
 

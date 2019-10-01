@@ -165,6 +165,7 @@ class DependencyGraph extends EventEmitter {
         platform: null | string,
       ) => this._assetResolutionCache.resolve(dirPath, assetName, platform),
       resolveRequest: this._config.resolver.resolveRequest,
+      rewritePath: this._config.resolver.rewritePath,
       sourceExts: this._config.resolver.sourceExts,
     });
   }

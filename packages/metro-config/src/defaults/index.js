@@ -37,6 +37,7 @@ const getDefaultValues = (projectRoot: ?string): ConfigT => ({
     resolverMainFields: ['browser', 'main'],
     extraNodeModules: {},
     resolveRequest: null,
+    rewritePath: null,
     hasteImplModulePath: undefined,
     blacklistRE: blacklist(),
     useWatchman: true,

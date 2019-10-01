@@ -51,6 +51,7 @@ async function convertOldToNew({
     getWatchFolders,
     getTransformModulePath,
     resolveRequest,
+    rewritePath,
     getAssetExts,
     getPlatforms,
     getResolverMainFields,
@@ -98,6 +99,7 @@ async function convertOldToNew({
       hasteImplModulePath,
       extraNodeModules,
       resolveRequest,
+      rewritePath,
       blacklistRE: getBlacklistRE()
         ? getBlacklistRE()
         : defaultConfig.resolver.blacklistRE,
