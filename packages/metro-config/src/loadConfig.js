@@ -261,12 +261,16 @@ async function loadConfig(
 
   // Set the watchfolders to include the projectRoot, as Metro assumes that is
   // the case
-  overriddenConfig.watchFolders = [
+  overriddenConfig.watchFolders = compact([
     overriddenConfig.projectRoot,
     ...overriddenConfig.watchFolders,
-  ];
+  ]);
 
   return overriddenConfig;
+}
+
+function compact(array) {
+  return Array.from(new Set(array.filter(Boolean)));
 }
 
 module.exports = {
