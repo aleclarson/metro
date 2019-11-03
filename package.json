@@ -33,7 +33,7 @@
     "istanbul-api": "^1.1.0",
     "istanbul-lib-coverage": "^1.0.0",
     "jest": "23.4.1",
-    "lerna": "2.4.0",
+    "lerna": "^3.18.3",
     "micromatch": "^2.3.11",
     "mkdirp": "^0.5.1",
     "prettier": "1.13.6",
@@ -58,8 +58,13 @@
     "watch": "yarn run build --silent && node ./scripts/watch.js"
   },
   "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/react-transform-hmr", "**/react-transform-hmr/**"]
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-transform-hmr",
+      "**/react-transform-hmr/**"
+    ]
   },
   "jest": {
     "modulePathIgnorePatterns": [
