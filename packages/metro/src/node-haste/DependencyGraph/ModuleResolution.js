@@ -81,11 +81,8 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
   }
 
   _redirectRequire(fromModule: TModule, modulePath: string): string | false {
-    const {moduleCache, rewritePath} = this._options;
+    const {moduleCache} = this._options;
     try {
-      if (rewritePath) {
-        modulePath = rewritePath(fromModule, modulePath);
-      }
       if (modulePath.startsWith('.')) {
         const fromPackage = fromModule.getPackage();
 

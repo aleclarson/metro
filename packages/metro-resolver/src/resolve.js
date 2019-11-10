@@ -43,6 +43,10 @@ function resolve(
   moduleName: string,
   platform: string | null,
 ): Resolution {
+  if (context.rewritePath) {
+    moduleName = context.rewritePath(moduleName, context);
+  }
+
   const resolveRequest = context.resolveRequest;
   if (
     !resolveRequest &&
