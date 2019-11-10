@@ -36,7 +36,7 @@ type ResolveOptions = {|
   extraNodeModules: {[id: string]: string},
   mainFields: $ReadOnlyArray<string>,
   resolveRequest?: ?CustomResolver,
-  rewritePath?: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport?: ?(fromModule: any, modulePath: string) => string,
   +sourceExts: Extensions,
   transformedFiles: {[path: Path]: TransformedCodeFile},
   +platform: string,

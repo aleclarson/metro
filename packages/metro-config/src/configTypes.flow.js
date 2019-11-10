@@ -97,7 +97,7 @@ export type OldConfigT = {
   postProcessBundleSourcemap: PostProcessBundleSourcemap,
   processModuleFilter: (modules: Module<>) => boolean,
   resolveRequest: ?CustomResolver,
-  rewritePath: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport: ?(fromModule: any, modulePath: string) => string,
   transformVariants: () => TransformVariants,
   virtualMapper: (file: string) => Array<string>,
 };
@@ -110,7 +110,7 @@ type ResolverConfigT = {|
   platforms: $ReadOnlyArray<string>,
   resolverMainFields: $ReadOnlyArray<string>,
   resolveRequest: ?CustomResolver,
-  rewritePath?: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport?: ?(fromModule: any, modulePath: string) => string,
   sourceExts: $ReadOnlyArray<string>,
   useWatchman: boolean,
   virtualMapper: (file: string) => Array<string>,
