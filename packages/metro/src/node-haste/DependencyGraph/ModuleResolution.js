@@ -67,7 +67,7 @@ type Options<TModule, TPackage> = {|
   +moduleMap: ModuleMap,
   +resolveAsset: ResolveAsset,
   +resolveRequest: ?CustomResolver,
-  +rewritePath: ?(fromModule: any, modulePath: string) => string,
+  +rewriteImport: ?(fromModule: any, modulePath: string) => string,
   +sourceExts: $ReadOnlyArray<string>,
 |};
 

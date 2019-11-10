@@ -43,8 +43,8 @@ function resolve(
   moduleName: string,
   platform: string | null,
 ): Resolution {
-  if (context.rewritePath) {
-    moduleName = context.rewritePath(moduleName, context);
+  if (context.rewriteImport) {
+    moduleName = context.rewriteImport(moduleName, context);
   }
 
   const resolveRequest = context.resolveRequest;
