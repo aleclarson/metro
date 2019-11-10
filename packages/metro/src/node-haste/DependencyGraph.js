@@ -46,7 +46,7 @@ type Options = {|
   +reporter: Reporter,
   +resetCache: boolean,
   +resolveRequest: ?CustomResolver,
-  +rewritePath: ?(fromModule: any, modulePath: string) => string,
+  +rewriteImport: ?(fromModule: any, modulePath: string) => string,
   +sourceExts: Array<string>,
   +useWatchman: boolean,
   +watch: boolean,
@@ -181,7 +181,7 @@ class DependencyGraph extends EventEmitter {
       resolveAsset: (dirPath, assetName, platform) =>
         this._assetResolutionCache.resolve(dirPath, assetName, platform),
       resolveRequest: this._opts.resolveRequest,
-      rewritePath: this._opts.rewritePath,
+      rewriteImport: this._opts.rewriteImport,
       sourceExts: this._opts.sourceExts,
     });
   }
