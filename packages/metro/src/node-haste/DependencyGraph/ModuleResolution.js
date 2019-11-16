@@ -189,7 +189,7 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
           moduleName,
           [
             `Module \`${moduleName}\` does not exist in the Haste module map${hint}`,
-            ...modulePaths.map(modulePath => `  ${path.dirname(modulePath)}`),
+            ...modulePaths.map(modulePath => `  ${modulePath}`),
             '',
             'This might be related to https://github.com/facebook/react-native/issues/4968',
             'To resolve try the following:',
