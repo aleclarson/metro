@@ -29,7 +29,6 @@ const glob = require('glob');
 const micromatch = require('micromatch');
 const mkdirp = require('mkdirp');
 const path = require('path');
-const prettier = require('prettier');
 
 const SRC_DIR = 'src';
 const BUILD_DIR = 'build';
@@ -98,14 +97,23 @@ function buildFile(file, silent) {
           '\n'
       );
   } else {
-    const transformed = prettier.format(babel.transformFileSync(file, {}).code, {
-      parser: 'babylon',
+    const result = babel.transformFileSync(file, {
+      sourceMaps: true,
+      sourceFileName: path.relative(path.dirname(destPath), file),
     });
-    fs.writeFileSync(destPath, transformed);
+
+    delete result.map.sourcesContent;
+    result.code +=
+      '\n//# sourceMappingURL=' + path.basename(destPath + '.map');
+
+    fs.writeFileSync(destPath, result.code);
+    fs.writeFileSync(destPath + '.map', JSON.stringify(result.map));
+
     const source = fs.readFileSync(file).toString('utf-8');
     if (/\@flow/.test(source)) {
       fs.createReadStream(file).pipe(fs.createWriteStream(destPath + '.flow'));
     }
+
     silent ||
       process.stdout.write(
         chalk.green('  \u2022 ') +
