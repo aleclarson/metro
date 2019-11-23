@@ -200,7 +200,7 @@ function overrideConfigWithArguments(
   }
 
   if (argv['max-workers'] != null || argv.maxWorkers != null) {
-    config.maxWorkers = Number(argv['max-workers'] || argv.maxWorkers);
+    config.maxWorkers = Number(argv['max-workers'] != null ? argv['max-workers'] : argv.maxWorkers);
   }
 
   if (argv.transformer != null) {
