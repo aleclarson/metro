@@ -204,8 +204,9 @@ function overrideConfigWithArguments(
     output.resolver.platforms = argv.platforms;
   }
 
-  if (argv['max-workers'] != null || argv.maxWorkers != null) {
-    output.maxWorkers = Number(argv['max-workers'] || argv.maxWorkers);
+  const maxWorkers = argv.maxWorkers != null ? argv.maxWorkers : argv['max-workers'];
+  if (maxWorkers != null) {
+    output.maxWorkers = Number(maxWorkers);
   }
 
   if (argv.transformer != null) {
