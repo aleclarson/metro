@@ -13,7 +13,7 @@
 import type {BabelSourceMap} from '@babel/core';
 import type {IncomingMessage, ServerResponse} from 'http';
 import type {CacheStore} from 'metro-cache';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 import type {MetroSourceMap} from 'metro-source-map';
 import type {
   DeltaResult,
@@ -217,7 +217,7 @@ export type OldConfigT = {
   /**
    * An optional function used to rewrite module paths.
    */
-  rewritePath: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport: ?PathRewriter,
 
   /**
    * Path to a require-able module that exports:
@@ -450,7 +450,7 @@ export type IntermediateConfigT = {
     assetTransforms: boolean,
     extraNodeModules: {[name: string]: string},
     resolveRequest?: ?CustomResolver,
-    rewritePath?: ?(fromModule: any, modulePath: string) => string,
+    rewriteImport?: ?PathRewriter,
     blacklistRE: RegExp,
     useWatchman: boolean,
   },

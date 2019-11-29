@@ -19,7 +19,7 @@ import type {
   PostMinifyProcess,
   PostProcessBundleSourcemap,
 } from 'metro-config/src/configTypes.flow.js';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 import type {
   MetroSourceMap,
   MetroSourceMapSegmentTuple,
@@ -98,7 +98,7 @@ export type Options = {|
   reporter?: Reporter,
   resetCache?: boolean,
   resolveRequest: ?CustomResolver,
-  rewriteImport: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport: ?PathRewriter,
   getModulesRunBeforeMainModule: (entryPoint: string) => Array<string>,
   silent?: boolean,
   sourceExts: ?Array<string>,
@@ -122,8 +122,6 @@ export type ServerOptions = {
   maxWorkers: number,
   minifierPath: string,
   platforms: Array<string>,
-  resolveRequest: ?CustomResolver,
-  rewriteImport: ?(fromModule: any, modulePath: string) => string,
   polyfillModuleNames: Array<string>,
   postMinifyProcess: PostMinifyProcess,
   postProcessBundleSourcemap: PostProcessBundleSourcemap,
@@ -131,7 +129,7 @@ export type ServerOptions = {
   providesModuleNodeModules?: Array<string>,
   reporter: Reporter,
   resolveRequest: ?CustomResolver,
-  rewriteImport: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport: ?PathRewriter,
   +getModulesRunBeforeMainModule: (entryFilePath: string) => Array<string>,
   +getResolverMainFields: () => $ReadOnlyArray<string>,
   +getRunModuleStatement: (number | string) => string,

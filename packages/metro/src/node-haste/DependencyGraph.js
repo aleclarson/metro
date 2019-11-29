@@ -31,7 +31,7 @@ import type {Reporter} from '../lib/reporting';
 import type {ModuleMap} from './DependencyGraph/ModuleResolution';
 import type Package from './Package';
 import type {HasteFS} from './types';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 
 type Options = {|
   +assetExts: Array<string>,
@@ -46,7 +46,7 @@ type Options = {|
   +reporter: Reporter,
   +resetCache: boolean,
   +resolveRequest: ?CustomResolver,
-  +rewriteImport: ?(fromModule: any, modulePath: string) => string,
+  +rewriteImport: ?PathRewriter,
   +sourceExts: Array<string>,
   +useWatchman: boolean,
   +watch: boolean,

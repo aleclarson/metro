@@ -56,7 +56,7 @@ const DEFAULT = ({
   postMinifyProcess: x => x,
   postProcessBundleSourcemap: ({code, map, outFileName}) => ({code, map}),
   resolveRequest: null,
-  rewritePath: null,
+  rewriteImport: null,
   getResolverMainFields: () => ['browser', 'main'],
   getModulesRunBeforeMainModule: () => [],
   getWorkerPath: () => null,
