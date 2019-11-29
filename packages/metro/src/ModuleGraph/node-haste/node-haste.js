@@ -29,14 +29,14 @@ const {ModuleMap} = require('jest-haste-map');
 import type {Moduleish} from '../../node-haste/DependencyGraph/ResolutionRequest';
 import type {ResolveFn, TransformedCodeFile} from '../types.flow';
 import type {Extensions, Path} from './node-haste.flow';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 
 type ResolveOptions = {|
   assetExts: Extensions,
   extraNodeModules: {[id: string]: string},
   mainFields: $ReadOnlyArray<string>,
   resolveRequest?: ?CustomResolver,
-  rewriteImport?: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport?: ?PathRewriter,
   +sourceExts: Extensions,
   transformedFiles: {[path: Path]: TransformedCodeFile},
   +platform: string,
