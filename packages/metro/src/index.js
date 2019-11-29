@@ -98,7 +98,7 @@ exports.runServer = async (
     secureKey,
     secureCert,
     hmrEnabled = false,
-  }: RunServerOptions,
+  }: RunServerOptions = {},
 ) => {
   // Lazy require
   const connect = require('connect');
