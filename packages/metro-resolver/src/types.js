@@ -111,6 +111,7 @@ export type ResolutionContext = ModulePathContext &
     extraNodeModules: ?{[string]: string},
     originModulePath: string,
     resolveRequest?: ?CustomResolver,
+    rewriteImport?: ?PathRewriter,
   };
 
 export type CustomResolver = (
@@ -118,3 +119,8 @@ export type CustomResolver = (
   string,
   string | null,
 ) => Resolution;
+
+export type PathRewriter = (
+  moduleName: string,
+  context: ResolutionContext,
+) => string;

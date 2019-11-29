@@ -22,6 +22,7 @@ import type {
   DoesFileExist,
   FileCandidates,
   IsAssetFile,
+  PathRewriter,
   Resolution,
   ResolveAsset,
 } from 'metro-resolver';
@@ -65,7 +66,7 @@ type Options<TModule, TPackage> = {|
   +moduleMap: ModuleMap,
   +resolveAsset: ResolveAsset,
   +resolveRequest: ?CustomResolver,
-  +rewriteImport: ?(fromModule: any, modulePath: string) => string,
+  +rewriteImport: ?PathRewriter,
   +sourceExts: $ReadOnlyArray<string>,
 |};
 

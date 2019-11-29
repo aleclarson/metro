@@ -12,7 +12,7 @@
 
 import type {IncomingMessage, ServerResponse} from 'http';
 import type {CacheStore} from 'metro-cache';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 import type {BasicSourceMap, MixedSourceMap} from 'metro-source-map';
 import type {
   DeltaResult,
@@ -97,7 +97,7 @@ export type OldConfigT = {
   postProcessBundleSourcemap: PostProcessBundleSourcemap,
   processModuleFilter: (modules: Module<>) => boolean,
   resolveRequest: ?CustomResolver,
-  rewriteImport: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport: ?PathRewriter,
   transformVariants: () => TransformVariants,
   virtualMapper: (file: string) => Array<string>,
 };
@@ -110,7 +110,7 @@ type ResolverConfigT = {|
   platforms: $ReadOnlyArray<string>,
   resolverMainFields: $ReadOnlyArray<string>,
   resolveRequest: ?CustomResolver,
-  rewriteImport?: ?(fromModule: any, modulePath: string) => string,
+  rewriteImport?: ?PathRewriter,
   sourceExts: $ReadOnlyArray<string>,
   useWatchman: boolean,
   virtualMapper: (file: string) => Array<string>,
