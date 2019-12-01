@@ -35,10 +35,11 @@ const defaultPlugins = [
   [require('@babel/plugin-transform-parameters')],
   [require('@babel/plugin-transform-shorthand-properties')],
   [require('@babel/plugin-transform-react-jsx')],
-  [require('@babel/plugin-transform-regenerator')],
   [require('@babel/plugin-transform-sticky-regex')],
   [require('@babel/plugin-transform-unicode-regex')],
 ];
+
+const regenerator = [require('@babel/plugin-transform-regenerator')];
 
 const es2015ImportExport = [
   require('@babel/plugin-transform-modules-commonjs'),
@@ -96,6 +97,9 @@ const getPreset = (src, options) => {
 
   if (!options || !options.disableImportExportTransform) {
     extraPlugins.push(es2015ImportExport);
+  }
+  if (!options || !options.dev) {
+    extraPlugins.push(regenerator);
   }
 
   if (hasClass) {
