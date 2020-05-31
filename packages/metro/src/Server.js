@@ -1008,7 +1008,7 @@ class Server {
     const excludeSource = this._getBoolOptionFromQuery(
       urlQuery,
       'excludeSource',
-      false,
+      true,
     );
     const includeSource = this._getBoolOptionFromQuery(
       urlQuery,
