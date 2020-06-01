@@ -62,9 +62,12 @@
     "typecheck": "flow check",
     "watch": "yarn run build && node ./scripts/watch.js"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "nohoist": ["**/metro/**"],
+    "packages": [
+      "packages/*"
+    ]
+  },
   "jest": {
     "modulePathIgnorePatterns": [
       "packages/[^/]+/build/"
