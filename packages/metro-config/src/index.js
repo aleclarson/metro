@@ -10,6 +10,8 @@
 
 'use strict';
 
+require('metro-require');
+
 const convertConfig = require('./convertConfig');
 const getDefaultConfig = require('./defaults');
 

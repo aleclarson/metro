@@ -17,6 +17,7 @@
     "metro": "0.45.2",
     "metro-cache": "0.45.2",
     "metro-core": "0.45.2",
+    "metro-require": "1.0.0",
     "react-transform-hmr": "^1.0.4"
   },
   "devDependencies": {}
