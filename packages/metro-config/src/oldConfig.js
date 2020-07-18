@@ -63,6 +63,7 @@ const DEFAULT = ({
   postMinifyProcess: x => x,
   postProcessBundleSourcemap: ({code, map, outFileName}) => ({code, map}),
   resolveRequest: null,
+  rewriteImport: null,
   getResolverMainFields: () => ['browser', 'main'],
   getModulesRunBeforeMainModule: () => [],
   getWorkerPath: () => 'metro/src/DeltaBundler/Worker',

@@ -22,10 +22,12 @@ import type {
   DoesFileExist,
   FileCandidates,
   IsAssetFile,
+  PathRewriter,
   Resolution,
   ResolveAsset,
 } from 'metro-resolver';
 
+export type FollowFn = (filePath: string) => string;
 export type DirExistsFn = (filePath: string) => boolean;
 
 /**
@@ -56,6 +58,7 @@ export type ModuleishCache<TModule, TPackage> = {
 };
 
 type Options<TModule, TPackage> = {|
+  +follow: FollowFn,
   +dirExists: DirExistsFn,
   +doesFileExist: DoesFileExist,
   +extraNodeModules: ?Object,
@@ -67,6 +70,7 @@ type Options<TModule, TPackage> = {|
   +moduleMap: ModuleMap,
   +resolveAsset: ResolveAsset,
   +resolveRequest: ?CustomResolver,
+  +rewriteImport: ?PathRewriter,
   +sourceExts: $ReadOnlyArray<string>,
 |};
 
@@ -80,7 +84,7 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
   }
 
   _redirectRequire(fromModule: TModule, modulePath: string): string | false {
-    const moduleCache = this._options.moduleCache;
+    const {moduleCache} = this._options;
     try {
       if (modulePath.startsWith('.')) {
         const fromPackage = fromModule.getPackage();
@@ -92,7 +96,7 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
           const fromPackagePath =
             './' +
             path.relative(
-              path.dirname(fromPackage.path),
+              fromPackage.root,
               path.resolve(path.dirname(fromModule.path), modulePath),
             );
 
@@ -109,19 +113,19 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
               './' +
               path.relative(
                 path.dirname(fromModule.path),
-                path.resolve(path.dirname(fromPackage.path), redirectedPath),
+                path.resolve(fromPackage.root, redirectedPath),
               );
           }
 
           return redirectedPath;
         }
       } else {
-        const pck = path.isAbsolute(modulePath)
+        const pack = path.isAbsolute(modulePath)
           ? moduleCache.getModule(modulePath).getPackage()
           : fromModule.getPackage();
 
-        if (pck) {
-          return pck.redirectRequire(modulePath, this._options.mainFields);
+        if (pack) {
+          return pack.redirectRequire(modulePath, this._options.mainFields);
         }
       }
     } catch (err) {
@@ -147,11 +151,21 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
             this._redirectRequire(fromModule, modulePath),
           allowHaste,
           platform,
-          resolveHasteModule: (name: string) =>
-            this._options.moduleMap.getModule(name, platform, true),
-          resolveHastePackage: (name: string) =>
-            this._options.moduleMap.getPackage(name, platform, true),
-          getPackageMainPath: this._getPackageMainPath,
+          resolveHasteModule(name) {
+            return this.moduleMap.getModule(name, platform, true);
+          },
+          getPackageMainPath(packageJsonPath: string): string {
+            return this.moduleCache
+              .getPackage(packageJsonPath)
+              .getMain(this.mainFields);
+          },
+          redirectPackage(packagePath: string): string {
+            packagePath = this.follow(packagePath);
+            const packageJsonPath = path.join(packagePath, 'package.json');
+            return this.doesFileExist(packageJsonPath)
+              ? this.moduleCache.getPackage(packageJsonPath).root
+              : packagePath;
+          },
         },
         moduleName,
         platform,
@@ -175,29 +189,14 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
         );
       }
       if (error instanceof Resolver.FailedToResolveNameError) {
-        const {
-          dirPaths,
-          extraPaths,
-        }: {
-          // $flowfixme these types are defined explicitly in FailedToResolveNameError but Flow refuses to recognize them here
-          dirPaths: $ReadOnlyArray<string>,
-          extraPaths: $ReadOnlyArray<string>,
-          ...
-        } = error;
-        const displayDirPaths = dirPaths
-          .filter((dirPath: string) => this._options.dirExists(dirPath))
-          .map(dirPath => path.relative(this._options.projectRoot, dirPath))
-          .concat(extraPaths);
-
-        const hint = displayDirPaths.length ? ' or in these directories:' : '';
+        const {modulePaths} = error;
+        const hint = modulePaths.length ? ' or at these locations:' : '';
         throw new UnableToResolveError(
           path.relative(this._options.projectRoot, fromModule.path),
           moduleName,
           [
             `${moduleName} could not be found within the project${hint || '.'}`,
-            ...displayDirPaths.map(
-              (dirPath: string) => `  ${path.dirname(dirPath)}`,
-            ),
+            ...modulePaths.map(modulePath => `  ${modulePath}`),
             '\nIf you are sure the module exists, try these steps:',
             ' 1. Clear watchman watches: watchman watch-del-all',
             ' 2. Delete node_modules: rm -rf node_modules and run yarn install',
@@ -209,11 +208,6 @@ class ModuleResolver<TModule: Moduleish, TPackage: Packageish> {
       throw error;
     }
   }
-
-  _getPackageMainPath = (packageJsonPath: string): string => {
-    const package_ = this._options.moduleCache.getPackage(packageJsonPath);
-    return package_.getMain(this._options.mainFields);
-  };
 
   /**
    * FIXME: get rid of this function and of the reliance on `TModule`

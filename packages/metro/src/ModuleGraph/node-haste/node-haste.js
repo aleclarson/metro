@@ -29,13 +29,14 @@ const {ModuleMap} = require('jest-haste-map');
 import type {Moduleish} from '../../node-haste/DependencyGraph/ResolutionRequest';
 import type {ResolveFn, TransformedCodeFile} from '../types.flow';
 import type {Extensions, Path} from './node-haste.flow';
-import type {CustomResolver} from 'metro-resolver';
+import type {CustomResolver, PathRewriter} from 'metro-resolver';
 
 type ResolveOptions = {|
   assetExts: Extensions,
   extraNodeModules: {[id: string]: string, ...},
   mainFields: $ReadOnlyArray<string>,
   resolveRequest?: ?CustomResolver,
+  rewriteImport?: ?PathRewriter,
   +sourceExts: Extensions,
   transformedFiles: {[path: Path]: TransformedCodeFile, ...},
   +platform: string,
@@ -143,6 +144,7 @@ exports.createResolveFn = function(options: ResolveOptions): ResolveFn {
     dirExists: (filePath: string): boolean => hasteFS.dirExists(filePath),
     doesFileExist: (filePath: string): boolean => hasteFS.exists(filePath),
     extraNodeModules,
+    follow: (filePath: string): string => hasteFS.follow(filePath),
     isAssetFile: (filePath: string): boolean => helpers.isAssetFile(filePath),
     mainFields: options.mainFields,
     // $FlowFixMe -- error revealed by types-first codemod

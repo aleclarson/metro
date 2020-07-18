@@ -13,8 +13,9 @@
 const fs = require('fs');
 const path = require('path');
 
-type PackageContent = {
+export type PackageContent = {
   name: string,
+  version: string,
   'react-native': mixed,
   browser: mixed,
   main: ?string,
@@ -23,14 +24,13 @@ type PackageContent = {
 
 class Package {
   path: string;
-
-  _root: string;
-  _content: ?PackageContent;
+  root: string;
+  content: ?PackageContent;
 
   constructor({file}: {file: string, ...}) {
     this.path = path.resolve(file);
-    this._root = path.dirname(this.path);
-    this._content = null;
+    this.root = path.dirname(this.path);
+    this.content = null;
   }
 
   /**
@@ -77,11 +77,11 @@ class Package {
     }
 
     /* $FlowFixMe: `getReplacements` doesn't validate the return value. */
-    return path.join(this._root, main);
+    return path.join(this.root, main);
   }
 
   invalidate() {
-    this._content = null;
+    this.content = null;
   }
 
   redirectRequire(
@@ -102,7 +102,7 @@ class Package {
     }
 
     let relPath =
-      './' + path.relative(this._root, path.resolve(this._root, name));
+      './' + path.relative(this.root, path.resolve(this.root, name));
 
     if (path.sep !== '/') {
       relPath = relPath.replace(new RegExp('\\' + path.sep, 'g'), '/');
@@ -124,17 +124,17 @@ class Package {
     }
 
     if (redirect) {
-      return path.join(this._root, redirect);
+      return path.join(this.root, redirect);
     }
 
     return name;
   }
 
   read(): PackageContent {
-    if (this._content == null) {
-      this._content = JSON.parse(fs.readFileSync(this.path, 'utf8'));
+    if (this.content == null) {
+      this.content = JSON.parse(fs.readFileSync(this.path, 'utf8'));
     }
-    return this._content;
+    return this.content;
   }
 }
 

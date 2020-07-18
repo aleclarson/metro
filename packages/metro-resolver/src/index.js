@@ -18,6 +18,7 @@ export type {
   FileCandidates,
   FileResolution,
   IsAssetFile,
+  PathRewriter,
   ResolutionContext,
   Resolution,
   ResolveAsset,
