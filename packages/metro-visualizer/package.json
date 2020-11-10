@@ -9,10 +9,10 @@
     "cleanup-release": "test ! -e build && mv src build && mv src.real src"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-flow": "^7.11.0",
+    "@babel/preset-react": "^7.11.0",
     "antd": "^3.7.1",
     "babel-plugin-import": "^1.8.0",
     "connect": "^3.6.5",
