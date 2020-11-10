@@ -68,7 +68,7 @@
     "json5": "^0.4.0",
     "lodash.throttle": "^4.1.1",
     "merge-stream": "^1.0.1",
-    "metro-require": "link:../metro-require",
+    "metro-require": "1.0.0",
     "metro-babel-register": "0.45.2",
     "metro-babel7-plugin-react-transform": "0.45.2",
     "metro-cache": "0.45.2",

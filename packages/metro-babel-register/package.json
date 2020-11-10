@@ -19,7 +19,7 @@
     "@babel/register": "^7.0.0",
     "core-js": "^2.2.2",
     "escape-string-regexp": "^1.0.5",
-    "metro-require": "link:../metro-require"
+    "metro-require": "1.0.0"
   },
   "scripts": {
     "prepare-release": "test -d build && rm -rf src.real && mv src src.real && mv build src",
