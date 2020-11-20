@@ -76,6 +76,7 @@ async function getRamBundleInfo(
     entryPoint,
     {
       dev: options.dev,
+      hot: options.hot,
       platform: options.platform,
     },
     filePath => getTransitiveDependencies(filePath, graph),
@@ -137,7 +138,7 @@ async function getRamBundleInfo(
  */
 async function _getRamOptions(
   entryFile: string,
-  options: {dev: boolean, platform: ?string},
+  options: {dev: boolean, hot: ?boolean, platform: ?string},
   getDependencies: string => Iterable<string>,
   getTransformOptions: ?GetTransformOptions,
 ): Promise<{|
@@ -153,7 +154,7 @@ async function _getRamOptions(
 
   const {preloadedModules, ramGroups} = await getTransformOptions(
     [entryFile],
-    {dev: options.dev, hot: true, platform: options.platform},
+    options,
     async x => Array.from(getDependencies),
   );
 
