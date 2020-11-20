@@ -1030,7 +1030,7 @@ class Server {
       dev,
       minify,
       excludeSource,
-      hot: true,
+      // hot: true,
       runModule: this._getBoolOptionFromQuery(urlObj.query, 'runModule', true),
       inlineSourceMap: includeSource,
       platform,
