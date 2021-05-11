@@ -2,7 +2,7 @@
   "repos": {
     "vendor/jest": {
       "url": "https://github.com/aleclarson/jest.git",
-      "head": "v24.1"
+      "head": "v24.9"
     }
   }
 }
