@@ -39,6 +39,7 @@ const es2015ImportExport = [
   },
 ];
 
+const logicalAssignmentOperators = [require('@babel/plugin-proposal-logical-assignment-operators')];
 const nullishCoalescingOperator = [
   require('@babel/plugin-proposal-nullish-coalescing-operator'),
   {loose: true},
@@ -86,6 +87,13 @@ const getPreset = (src, options) => {
   }
   if (isNull || src.indexOf('??') !== -1) {
     extraPlugins.push(nullishCoalescingOperator);
+  }
+  if (
+    isNull ||
+    src.indexOf('||=') !== -1 ||
+    src.indexOf('&&=') !== -1
+  ) {
+    extraPlugins.push(logicalAssignmentOperators);
   }
 
   if (options && options.dev) {
