@@ -19,7 +19,7 @@ class FailedToResolveNameError extends Error {
     const hint = modulePaths.length ? ' or at these locations:' : '';
     super(
       `Module does not exist in the Haste module map${hint}\n` +
-        modulePaths.map(modulePath => `  ${modulePath}\n`).join(', ') +
+        modulePaths.map(modulePath => `  ${modulePath}\n`).join('') +
         '\n',
     );
 
